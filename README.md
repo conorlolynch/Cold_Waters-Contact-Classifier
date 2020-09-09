@@ -27,11 +27,11 @@ scikit-image == 0.17.2
 ### Additional Information
 
 - This program was designed assuming CaptainX3's Playable Subs mod was also being used (more submarines in this mod). 
-- For now the program only works with the Improved virginia Class due the varying heights of the broadband display depedning on the number of torperdo tubes each playable submarine has.
+- For now the program only works with the Improved Virginia Class due the varying heights of the broadband display depending on the number of torperdo tubes each playable submarine has.
 - For now only submerged contacts are properly classified and surface vessels are ignored.
 - The program only works in custom games due to a bug with the playable subs mod which changes up the sequence of submarines and other vessels in the signature tab. This means this program will not work properly in campaign or quick missions.
 
 ### Desired Features
-- Have this program be able to run with all playable subs in the game.
+- Be able to run this program with all available submarines in the game.
 - Classify both submerged and surface vessels properly
 - Be able to run this in the campaign and quick missions without any issues.
