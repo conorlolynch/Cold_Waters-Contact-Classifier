@@ -173,8 +173,6 @@ def grab_screen(region=None):
             left,top,x2,y2 = region
             width = x2
             height = y2
-            #width = x2 - left + 1
-            #height = y2 - top + 1
     else:
         width = win32api.GetSystemMetrics(win32con.SM_CXVIRTUALSCREEN)
         height = win32api.GetSystemMetrics(win32con.SM_CYVIRTUALSCREEN)
@@ -203,17 +201,12 @@ def grab_screen(region=None):
 
 # Has a runtime of 9 - 12 milliseconds
 def compareImageToScreenshot(filename, region):
-    #imageA = cv2.imread('images\\number_0.png')
+
     imageA = cv2.imread(filename)
-    #imageB = grab_screen((90, 894, 9, 14))      # Middle digit
     imageB = grab_screen(region)
 
     grayA = cv2.cvtColor(imageA, cv2.COLOR_BGR2GRAY)
     grayB = cv2.cvtColor(imageB, cv2.COLOR_BGR2GRAY)
-
-    # cv2.imshow("original",grayA)
-    # cv2.imshow("screen",grayB)
-    # cv2.waitKey(0)
 
     # compute the Structural Similarity Index (SSIM) between the two
     # images, ensuring that the difference image is returned
@@ -224,18 +217,15 @@ def compareImageToScreenshot(filename, region):
 
 
 def openConditionsTab():
-    #pyautogui.press('f5')
     pyautogui.press(CONDITIONS_TAB_BUTTON)
 
 
 def openSignatureTab():
-    #pyautogui.press('f6')
     pyautogui.press(SIGNATURE_TAB_BUTTON)
 
 
 def cycleToNextContact():
     # Do we need to do a check to see if any contacts exist, or only one contact exists
-    #pyautogui.press('t')
     pyautogui.press(NEXT_CONTACT_BUTTON)
 
 
@@ -245,11 +235,8 @@ def getEnemyDepth(hud_zoom):
     # https://stackoverflow.com/questions/7853628/how-do-i-find-an-image-contained-within-an-image
     # This can only be found in the Conditions tab (F5) and adjusting the depth meter
     method = cv2.TM_SQDIFF_NORMED
-    #surfaceYpos = 466
     surfaceYpos = CONDITIONS_TAB_SEA_SURFACE_YPOS
-    #small_image_height = 20
     small_image_height = SMALL_IMAGE_HEIGHT
-    #region = (1700, surfaceYpos - small_image_height, 84, 298)
     region = ENEMY_DEPTH_REGION
 
     # Read the images from the file
@@ -275,9 +262,7 @@ def getEnemyDepth(hud_zoom):
 # Classify a contact quickly as a random submarine
 def classifyAsSubmarine():
     pyautogui.click(SIGNATURE_TAB_SUBMARINE_BUTTON[0], SIGNATURE_TAB_SUBMARINE_BUTTON[1])
-    #pyautogui.click(1587, 732)
     pyautogui.press(CONFIRM_CONTACT_BUTTON)
-    #pyautogui.press('enter')
     pyautogui.moveTo(20,20)
 
 
@@ -285,17 +270,14 @@ def classifyAsSubmarine():
 def classifyAsSurfaceVessel():
     classifyAsSubmarine()
     for i in range(0,5):
-        #pyautogui.press(';')
         pyautogui.press(PREVIOUS_SIGNATURE_CONTACT)
     pyautogui.press(CONFIRM_CONTACT_BUTTON)
-    #pyautogui.press('enter')
 
 
 # This is important so that we know which contact we are trying to classify in the signature tab
 # This function needs the signature tab to be open
 def getContactNumber():
     # Only accounting for 9 contacts right now
-    #region = (1301, 434, 9, 14)
     region = CONTACT_NUMBER_REGION
     for digit in range(1, 10):
         if (compareImageToScreenshot('images\\number_'+str(digit)+'.png', region) > 0.75):
@@ -319,7 +301,6 @@ def quicklyIdentifyTargets(hud_zoom, numberOfEnemySubsInGame):
 
     while (running):
         if (contactList.contains(contactNumber)):
-            print("Skipped")
             pass
         else:
             classifyAsSubmarine()
@@ -329,7 +310,6 @@ def quicklyIdentifyTargets(hud_zoom, numberOfEnemySubsInGame):
             if (depthOfContact > 40):
                 # This is an enemy contact so we are going to focus on it
                 # and try to classify it through the broadband display
-                print("Depth of S"+str(contactNumber)+": ",depthOfContact)
                 compareEnemySubmarineBroadbands(numberOfEnemySubsInGame)
             else:
                 # This is probably a surface ship so we are going to quickly
@@ -340,9 +320,6 @@ def quicklyIdentifyTargets(hud_zoom, numberOfEnemySubsInGame):
                 classifyAsSurfaceVessel()
 
                 # Here we can go into detail of classifying the contact but we dont have to
-                #temp = getEnemyInfo()
-                #vesselData = Data(contactNumber, *temp, depthOfContact, isSurfaceVessel=True)
-                #contactList.add(contactNumber, vesselData)
                 contactList.add(contactNumber, None)
 
         openConditionsTab()
@@ -416,9 +393,6 @@ def getConfidenceOnContact(bottom_set ,top_region):
 def compareEnemySubmarineBroadbands(numberOfEnemySubsInGame):
     # https://docs.opencv.org/3.4/dd/dd7/tutorial_morph_lines_detection.html
 
-    #top_region = (1496, 504, 337, 88)
-    #bottom_region = (1496, 615, 337, 88)
-
     top_region = TOP_BROADBAND_REGION
     bottom_region = BOTTOM_BROADBAND_REGION
 
@@ -435,12 +409,10 @@ def compareEnemySubmarineBroadbands(numberOfEnemySubsInGame):
     openSignatureTab()
 
     # Click on the submarine symbol in the signature tab so we can begin classifying
-    #pyautogui.click(1587, 732)
     pyautogui.click(SIGNATURE_TAB_SUBMARINE_BUTTON[0], SIGNATURE_TAB_SUBMARINE_BUTTON[1])
 
     # This puts us on the mamal section to check if submerged contacts are wales
     for i in range(0, 2):
-        #pyautogui.press(";")
         pyautogui.press(PREVIOUS_SIGNATURE_CONTACT_BUTTON)
 
     # Bottom screen is the contacts broadband signal (wont change unless we change contact)
@@ -456,8 +428,6 @@ def compareEnemySubmarineBroadbands(numberOfEnemySubsInGame):
     for x in indices_bottom[1]:
         bottom_set.add(x)
 
-    print("Bottom Screen: ",sorted(bottom_set))
-
     while ((not found) and (currentCycle < maxCycles)):
 
         current_confidence = getConfidenceOnContact(bottom_set, top_region)
@@ -468,17 +438,11 @@ def compareEnemySubmarineBroadbands(numberOfEnemySubsInGame):
             number_backsteps = 0
 
         if (current_confidence >= 6):
-            #pyautogui.press('enter')
             pyautogui.press(CONFIRM_CONTACT_BUTTON)
-            # We want to do additional stuff at this point
-            # like update this contact in the contactList as being
-            # lethal or not
             found = True
-            print("FOUND")
             begin_backstep = False
             return True
         else:
-            #pyautogui.press('#')
             pyautogui.press(NEXT_SIGNATURE_CONTACT_BUTTON)
 
         currentCycle += 1
@@ -494,8 +458,6 @@ def compareEnemySubmarineBroadbands(numberOfEnemySubsInGame):
 
         for i in range(0, number_backsteps):
             pyautogui.press(PREVIOUS_SIGNATURE_CONTACT_BUTTON)
-            #pyautogui.press(';')
-        #pyautogui.press('enter')
         pyautogui.press(CONFIRM_CONTACT_BUTTON)
 
 
@@ -507,5 +469,5 @@ contactList = ContactList()
 
 while running:
     time.sleep(start_delay)
-    quicklyIdentifyTargets(hud_zoom = 0, numberOfEnemySubsInGame=47)
+    quicklyIdentifyTargets(hud_zoom = 0, numberOfEnemySubsInGame=NUMBER_ENEMY_SUBS)
     running = False
