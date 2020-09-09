@@ -20,6 +20,10 @@ pywin32 == 228
 scikit-image == 0.17.2
 ```
 
+## Usage and Explanation
+
+Run this program whenever multiple unknown contacts appear. The program will cycle through all detected contacts and will attempt to classify them correctly. The program does this by lining up all the green bars on the upper and lower parts of the broadband displays. Sometimes due to large amounts of ambient noise in game, some green bars will appear faded and so the algorithm keeps track of the most likely class the target could be and classifies it accordingly.
+
 ### Demonstration
 
 ![alt text](img/Cold-Waters-2020-09-09-14-11-53.gif)
