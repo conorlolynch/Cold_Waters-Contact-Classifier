@@ -20,7 +20,7 @@ pywin32 == 228
 scikit-image == 0.17.2
 ```
 
-### Demonstartion
+### Demonstration
 
 ![alt text](img/Cold-Waters-2020-09-09-14-11-53.gif)
 
