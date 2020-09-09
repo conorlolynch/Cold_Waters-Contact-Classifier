@@ -3,7 +3,7 @@ Program which classifies submerged contacts by their class of submarine using th
 
 ## Getting Started
 
-Make sure to run the game in full screen at 1920 x 1080p resolution. 
+Make sure to run the game in windowed mode at 1920 x 1080p resolution. 
 Also make sure that hud scale is set to 1.5 so that numbers on screen can be read easier
 
 After that just run the auto_contact_classifier.py file and watch as the algorithm classifies submerged contacts.
