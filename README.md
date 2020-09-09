@@ -1,10 +1,10 @@
 # Cold_Waters-Contact-Classifier
-Program which classifies submerged contacts by their class of submarine using the broadband displayin the submarine simulator game Cold Waters
+Program which classifies submerged contacts by their class of submarine using the broadband displayin the submarine simulator game Cold Waters.
 
 ## Getting Started
 
 Make sure to run the game in windowed mode at 1920 x 1080p resolution. 
-Also make sure that hud scale is set to 1.5 so that numbers on screen can be read easier
+Also make sure that hud scale is set to 1.5 so that numbers on screen can be read easier.
 
 After that just run the auto_contact_classifier.py file and watch as the algorithm classifies submerged contacts.
 
@@ -33,5 +33,5 @@ scikit-image == 0.17.2
 
 ### Desired Features
 - Be able to run this program with all available submarines in the game.
-- Classify both submerged and surface vessels properly
+- Classify surface vessels properly.
 - Be able to run this in the campaign and quick missions without any issues.
